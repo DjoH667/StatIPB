@@ -1,0 +1,22 @@
+.DS_Store
+*.db-journal
+*.sqlite-journal
+*.sqbpro
+
+# Local or generated database snapshots.
+# Some historical DB files are already tracked; this prevents adding new ones
+# with personal player data by accident.
+*.db
+*.sqlite
+*.sqlite3
+iPassBall.V.*copie.db
+mysqlitedb*.db
+test.db
+
+# Generated SQL exports can be rebuilt from sessions/logs.
+FichiersPrBDDEssais/
+
+# Local editor/runtime noise
+.idea/
+.vscode/
+*.log

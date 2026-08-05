@@ -33,6 +33,7 @@ if ($reponseDonneesPartie === FALSE)
 
 $rowDonneesPartie = $reponseDonneesPartie->fetchArray();
 
+$IdJ=$rowDonneesPartie['IdJoueur'];
 
 /*$ Données Joueur*/
 $sqlJoueur = "SELECT * FROM Joueurs where IdJoueur='".$rowDonneesPartie['IdJoueur']."'";
@@ -44,28 +45,45 @@ if ($reponseJoueur === FALSE)
 
 $rowJoueur = $reponseJoueur->fetchArray();
 
+$NomJ=substr($rowJoueur['NomJoueur'], 0, 3);
+$Joueur = $rowJoueur['PrenomJoueur']." ".$NomJ;
 
-$Joueur = $rowJoueur['NomJoueur']." ".$rowJoueur['PrenomJoueur'];
+if ($rowParametresPartie['DureePartie'] > 60 ) {
+
+   $DureePartie = $rowParametresPartie['DureePartie']/60;
+   $StringDureePartie = $DureePartie." Minute(s)";
+}
+else {
+  $DureePartie = $rowParametresPartie['DureePartie'];
+  $StringDureePartie = $DureePartie." Secondes";
+}
+
+$Dnominal = $rowParametresPartie['DminPartie']/100;
+$c1=$rowParametresPartie['c1Partie'];
+$c2=$rowParametresPartie['c2Partie'];
+
+
+list($Annee, $Mois, $Jour) = explode('-',$rowParametresPartie['DatePartie']);
 
 ?>
 
 
-<h2><p>Synthese de la partie du <?php echo $rowParametresPartie['DatePartie']?> de <b><?php echo $Joueur; ?> </b></p></h2>
-<p><u>Paramètres de la partie :</u>
-Dur&eacute;e : <?php echo $rowParametresPartie['DureePartie'].' secondes' ?> /
-Dmin : <?php echo $rowParametresPartie['DminPartie'].' Mètre' ?> /
+<h2>Synthèse Partie n° <?php echo $IdP ?> le <?php echo $Jour.'/'.$Mois.'/'.$Annee  ?> par <b><?php echo $Joueur; ?> </h2>
+<!-- <p><b><u>Params de la partie :</u>
+Dur&eacute;e : <?php echo $StringDureePartie ?> /
+Dmin : <?php echo $Dnominal.' m' ?> </b>   avec
 c1: <?php echo $rowParametresPartie['c1Partie'] ?> /
-c2 : <?php echo $rowParametresPartie['c2Partie'] ?></p>
+c2 : <?php echo $rowParametresPartie['c2Partie'] ?></p> -->
 
 
 
 <div id="chart_div" align="center"></div>
 
 
-<hr size='5'color='green'>
+<!-- <hr size='5'color='green'> -->
 <?php
 //echo "Synthèse IdPartie = ".$IdP." & IdJoueur = ".$IdJ."<br>";
-echo "<a href='ResultatChronoPartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>Chronologie de la Partie </a>";
+//echo "<a href='ResultatChronoPartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>Chronologie de la Partie n° ".$IdP."</a>";
 ?>
 
 <?php
@@ -80,90 +98,115 @@ $ScorePrecedent = 0;
               }
               else {
 
-              echo "<div>";
-              echo "<table style='width: 92%; border-collapse: collapse; height: 180px; border-color: transparent';'' border='5'>";
+              echo "<div align='center'>";
+              //echo "<table style='width: 92%; border-collapse: collapse; height: 180px; border-color: blacktransparent';'' border='5'>";
+              echo "<table style='width: 1000px; border-collapse: collapse; height: 180px; border-color: black';'' border='0'>";
               echo "<tbody>";
+
               /* ******* */
               /* DEBUT ENTETE */
               /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px; border-color: transparent';><b>".$rowDonneesPartie['MAX(NbImp)']." Impacts</b></td>";
-                echo "<td style='width: 8%; height: 18px;'> </td>";
+              echo "<tr>";
 
-                echo "<td style='width: 8%; height: 18px;'><b>Code Joueur : ".$rowJoueur['CodeJoueur']."</b></td>";
-                  echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'><b>SCORE = ".$rowDonneesPartie['Score']."</b></td>";
-                  echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'></td>";
-                  echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'><b>TEMPS : ".$rowDonneesPartie['Tps']."</b></td>";
+              echo "<td></td>";
+              echo "<td></td>";
+              echo "<td>CODE</td>";
+              echo "<td></td>";
 
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+              echo "<td>SCORE</td>";
+              echo "<td></td>";
+              echo "<td></td>";
+              echo "<td></td>";
+
+              echo "<td>DUREE</td>";
+              echo "<td colspan='2' style='font-size: 18px;'><a href='ResultatChronoPartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>Chrono Partie ".$IdP."</a></td>";
+              //echo "<td style='text-align: right;' ></td>";
+
+
+              echo "</tr>";
+
+              echo "<tr style=''>";
+                echo "<td style='width: 8%; '> </td>";
+                echo "<td style='width: 8%; '> </td>";
+
+                echo "<td style='width: 100px; '><b style='color:red'>".$rowJoueur['CodeJoueur']."</b></td>";
+                  echo "<td style='width: 0.1%; text-align: center;'></td>";
+                echo "<td style='width: 100px; '><b style='color:red'>".$rowDonneesPartie['Score']."</b></td>";
+                  echo "<td style='width: 0.1%; text-align: center;'></td>";
+                echo "<td style='width: 100px; '></td>";
+                  echo "<td style='width: 0.1%; text-align: center;'></td>";
+                echo "<td style='width: 100px; '><b style='color:red'>".$StringDureePartie."</b></td>";
+
+                echo "<td style='width: 8%; '>&nbsp;</td>";
+                echo "<td style='width: 8%; '>&nbsp;</td>";
               echo "</tr>";
               /* ******* */
               /* FIN ENTETE */
               /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'> </td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+              echo "<tr style=''>";
+                echo "<td style=' '></td>";
+                echo "<td style=' '></td>";
+                echo "<td style=' '></td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                  $NbPtsParImpact = number_format($rowDonneesPartie['Score']/$rowDonneesPartie['MAX(NbImp)'], 2 , ',', ' ');
+                echo "<td style='  border-color: transparent';><b style='color:red'>>>> ".$rowDonneesPartie['MAX(NbImp)']." Impacts</b></td>";
+                  echo "<td style='width: 0.1%; text-align: center; '></td>";
+                echo "<td style='  font-size: 15px;'>".$NbPtsParImpact." Pts/Impact</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                  echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
               echo "</tr>";
               /* ******* */
               /* Cible HAUTES  */
               /* ******* */
               echo "<tr style='height: 100px;'>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='background-color: #f8cbad; width: 8%; text-align: center;'><h1>1</h1></td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style='background-color: #f8cbad;  text-align: center;'><h3>1</h3></td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #f2b084; width: 8%; text-align: center; '><h1>2</h1></td>";
+                echo "<td style='background-color: #f2b084;  text-align: center; '><h3>2</h3></td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #f2b084; width: 8%; text-align: center;''><h1>2</h1></td>";
+                echo "<td style='background-color: #f2b084;  text-align: center;''><h3>2</h3></td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #f8cbad; width: 8%; text-align: center;'><h1>1</h1></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'><strong>HAUT</strong></td>";
+                echo "<td style='background-color: #f8cbad;  text-align: center;'><h3>1</h3></td>";
+                echo "<td style='  text-align: center; color: orange ;' colspan='2' ><strong>HAUT</strong></td>";
+                //echo "<td style=' '>&nbsp;</td>";
+
               echo "</tr>";
                           /* ******* */
                           /* LIGNE IMPACT  */
                           /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'></td>";
-                echo "<td style='background-color: #f8cbad; text-align: center; width: 8%;'>Nb Impact :  ".$rowDonneesPartie['NbHGG'];
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '></td>";
+                echo "<td style='background-color: #f8cbad; text-align: center; '><b style='color:red'>".$rowDonneesPartie['NbHGG']." impact(s)</b>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #f2b084; text-align: center; width: 8%;'>Nb Impact :  ".$rowDonneesPartie['NbHG'];
+                echo "<td style='background-color: #f2b084; text-align: center; '><b style='color:red'>".$rowDonneesPartie['NbHG']." impact(s)</b>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #f2b084; text-align: center; width: 8%;'>Nb Impact :  ".$rowDonneesPartie['NbHD'];
+                echo "<td style='background-color: #f2b084; text-align: center; '><b style='color:red'>".$rowDonneesPartie['NbHD']." impact(s)</b>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #f8cbad; text-align: center; width: 8%;'>Nb Impact :  ".$rowDonneesPartie['NbHDD'];
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>Nb Impact :  ".$rowDonneesPartie['NbHaut'];
+                echo "<td style='background-color: #f8cbad; text-align: center; '><b style='color:red'>".$rowDonneesPartie['NbHDD']." impact(s)</b>";
+                echo "<td style='  text-align: center;' colspan='2'><b style='color:red'>".$rowDonneesPartie['NbHaut']." impact(s)</b>";
+                //echo "<td style=' '>&nbsp;</td>";
+
               echo "</tr>";
                             /* ******* */
                             /* LIGNE POURCENTAGE  */
                             /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='background-color: #f8cbad; text-align: center; width: 8%;'>".($rowDonneesPartie['pHGG']*100)."%";
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style='background-color: #f8cbad; text-align: center; '>".($rowDonneesPartie['pHGG']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #f2b084; text-align: center; width: 8%;'>".($rowDonneesPartie['pHG']*100)."%";
+                echo "<td style='background-color: #f2b084; text-align: center; '>".($rowDonneesPartie['pHG']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #f2b084; text-align: center; width: 8%;'>".($rowDonneesPartie['pHD']*100)."%";
+                echo "<td style='background-color: #f2b084; text-align: center; '>".($rowDonneesPartie['pHD']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #f8cbad; text-align: center; width: 8%;'>".($rowDonneesPartie['pHDD']*100)."%";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>".($rowDonneesPartie['pH']*100)."%";
+                echo "<td style='background-color: #f8cbad; text-align: center; '>".($rowDonneesPartie['pHDD']*100)."%";
+                echo "<td style='  text-align: center;' colspan='2'>".($rowDonneesPartie['pH']*100)."%";
+                //echo "<td style=' '>&nbsp;</td>";
+
 
 
                 /* ******* */
@@ -171,17 +214,17 @@ $ScorePrecedent = 0;
                 /* ******* */
 
                 echo "<tr style='height: 3px;'>";
-                  echo "<td style='width: 8%; height: 3px;'></td>";
-                  echo "<td style='width: 8%; height: 3px;'></td>";
-                  echo "<td style='width: 8%; height: 3px;'></td>";
+                  echo "<td style=' height: 3px;'></td>";
+                  echo "<td style=' height: 3px;'></td>";
+                  echo "<td style=' height: 3px;'></td>";
                     echo "<td style='width: 0.1%; text-align: center;'></td>";
-                  echo "<td style='width: 8%; height: 3px;'></td>";
+                  echo "<td style=' height: 3px;'></td>";
                     echo "<td style='width: 0.1%; text-align: center;'></td>";
-                  echo "<td style='width: 8%; height: 3px;'></td>";
+                  echo "<td style=' height: 3px;'></td>";
                     echo "<td style='width: 0.1%; text-align: center;'></td>";
-                  echo "<td style='width: 8%; height: 3px;'></td>";
-                  echo "<td style='width: 8%; height: 3px;'></td>";
-                  echo "<td style='width: 8%; height: 3px;'></td>";
+                  echo "<td style=' height: 3px;'></td>";
+                  echo "<td style=' height: 3px;'></td>";
+                  echo "<td style=' height: 3px;'></td>";
                 echo "</tr>";
 
 
@@ -192,222 +235,249 @@ $ScorePrecedent = 0;
               /* ******* */
               /* Cible BASSES  */
               /* ******* */
-              echo "<tr style='height: 100px;'>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='background-color: #e2efda; width: 8%; text-align: center;'><h1>3</h1></td>";
+              echo "<tr style='height: 60px;'>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style='background-color: #e2efda;  text-align: center;'><h3>3</h3></td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #a9d08e; width: 8%; text-align: center;'><h1>5</h1></td>";
+                echo "<td style='background-color: #a9d08e;  text-align: center;'><h3>5g</h3></td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #a9d08e; width: 8%; text-align: center;'><h1>5</h1></td>";
+                echo "<td style='background-color: #a9d08e;  text-align: center;'><h3>5d</h3></td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #e2efda; width: 8%; text-align: center;'><h1>3</h1></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'><strong>BAS</strong></td>";
+                echo "<td style='background-color: #e2efda;  text-align: center;'><h3>3</h3></td>";
+                echo "<td style='  text-align: center; ;color: green;' colspan='2'><strong>BAS</strong></td>";
+                //echo "<td style=' '>&nbsp;</td>";
+
               echo "</tr>";
                           /* ******* */
                           /* LIGNE IMPACT  */
                           /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='background-color: #e2efda; text-align: center; width: 8%;'>Nb Impact :  ".$rowDonneesPartie['NbBGG'];
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style='background-color: #e2efda; text-align: center; '><b style='color:red'>".$rowDonneesPartie['NbBGG']." impact(s)</b>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #a9d08e; text-align: center; width: 8%;'>Nb Impact :  ".$rowDonneesPartie['NbBG'];
+                echo "<td style='background-color: #a9d08e; text-align: center; '><b style='color:red'>".$rowDonneesPartie['NbBG']." impact(s)</b>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #a9d08e; text-align: center; width: 8%;'>Nb Impact :  ".$rowDonneesPartie['NbBD'];
+                echo "<td style='background-color: #a9d08e; text-align: center; '><b style='color:red'>".$rowDonneesPartie['NbBD']." impact(s)</b>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #e2efda; text-align: center; width: 8%;'>Nb Impact :  ".$rowDonneesPartie['NbBDD'];
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>&nbsp;Nb Impact :  ".$rowDonneesPartie['NbBas'];
+                echo "<td style='background-color: #e2efda; text-align: center; '><b style='color:red'>".$rowDonneesPartie['NbBDD']." impact(s)</b>";
+                echo "<td style='  text-align: center;' colspan='2'><b style='color:red'>".$rowDonneesPartie['NbBas']." impact(s)</b>";
+                //echo "<td style=' '>&nbsp;</td>";
+
               echo "</tr>";
                           /* ******* */
                           /* LIGNE POURCENTAGE  */
                           /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='background-color: #e2efda; text-align: center; width: 8%;'>".($rowDonneesPartie['pBGG']*100)."%";
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style='background-color: #e2efda; text-align: center; '>".($rowDonneesPartie['pBGG']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #a9d08e; text-align: center; width: 8%;'>".($rowDonneesPartie['pBG']*100)."%";
+                echo "<td style='background-color: #a9d08e; text-align: center; '>".($rowDonneesPartie['pBG']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #a9d08e; text-align: center; width: 8%;'>".($rowDonneesPartie['pBD']*100)."%";
+                echo "<td style='background-color: #a9d08e; text-align: center; '>".($rowDonneesPartie['pBD']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='background-color: #e2efda; text-align: center; width: 8%;'>".($rowDonneesPartie['pBDD']*100)."%";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>".($rowDonneesPartie['pB']*100)."%";
+                echo "<td style='background-color: #e2efda; text-align: center; '>".($rowDonneesPartie['pBDD']*100)."%";
+                echo "<td style='  text-align: center;' colspan='2'>".($rowDonneesPartie['pB']*100)."%";
+                //echo "<td style=' '>&nbsp;</td>";
+
               echo "</tr>";
 
               /* ******* */
               /* Ligne Separation  */
               /* ******* */
 
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
               echo "</tr>";
 
               /* ******* */
               /* SYNTHESE PAR QUART  */
               /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'><a href='StatForcePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>Force moyenne : ".$rowDonneesPartie['FMoy']."</a></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>Ext G</td>";
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style='  text-align: center;'>Ext G</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>Centre G</td>";
+                echo "<td style='  text-align: center;'>Centre G</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>Centre D</td>";
+                echo "<td style='  text-align: center;'>Centre D</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>Ext D</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style='  text-align: center;'>Ext D</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
               echo "</tr>";
                           /* ******* */
                           /* LIGNE IMPACT  */
                           /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'><a href='StatForcePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>Force min : ".$rowDonneesPartie['Fmin']."</a></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>&nbsp;Nb Impact :  ".$rowDonneesPartie['NbExtG'];
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style='  text-align: center;'>&nbsp;<b style='color:red'>".$rowDonneesPartie['NbExtG']." impact(s)</b>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>&nbsp;Nb Impact :  ".$rowDonneesPartie['NbCentreG'];
+                echo "<td style='  text-align: center;'>&nbsp;<b style='color:red'>".$rowDonneesPartie['NbCentreG']." impact(s)</b>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>&nbsp;Nb Impact :  ".$rowDonneesPartie['NbCentreD'];
+                echo "<td style='  text-align: center;'>&nbsp;<b style='color:red'>".$rowDonneesPartie['NbCentreD']." impact(s)</b>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>&nbsp;Nb Impact :  ".$rowDonneesPartie['NbExtD'];
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style='  text-align: center;'>&nbsp;<b style='color:red'>".$rowDonneesPartie['NbExtD']." impact(s)</b>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
               echo "</tr>";
                           /* ******* */
                           /* LIGNE POURCENTAGE  */
                           /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'><a href='StatForcePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>Force Max : ".$rowDonneesPartie['FMax']."</a></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>".($rowDonneesPartie['pExtG']*100)."%";
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style='  text-align: center;'>".($rowDonneesPartie['pExtG']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>".($rowDonneesPartie['pCG']*100)."%";
+                echo "<td style='  text-align: center;'>".($rowDonneesPartie['pCG']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>".($rowDonneesPartie['pCD']*100)."%";
+                echo "<td style='  text-align: center;'>".($rowDonneesPartie['pCD']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;'>".($rowDonneesPartie['pExtD']*100)."%";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style='  text-align: center;'>".($rowDonneesPartie['pExtD']*100)."%";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
               echo "</tr>";
 
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
                 echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
               echo "</tr>";
               /* ******* */
               /* SYNTHESE PAR DEMI  */
               /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'><a href='StatDistancePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>D moyenne : ".$rowDonneesPartie['dmoy']." mètres</a></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                //echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>&nbsp;&nbsp;<strong>Gauche</strong></td>";
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style='  text-align: right;'>D Moy : </td>";
+                echo "<td style='  text-align: left;'><a href='StatDistancePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>".$rowDonneesPartie['dmoy']." m</a></td>";
+                //echo "<td style='  text-align: center;' colspan='1'>&nbsp;&nbsp;<strong>Gauche</strong></td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>&nbsp;&nbsp;<strong>Gauche</strong></td>";
+                echo "<td style='  text-align: center; background-color:#a4b780;color: red ;' <b >GAUCHE</b></td>";
                 echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>&nbsp;&nbsp;<strong>Droite</strong></td>";
+                echo "<td style='  text-align: center; background-color:#a4b780; color: blue ;' ><strong>DROITE</strong></td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                //echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>&nbsp;&nbsp;<strong>Droite</strong></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                //echo "<td style='  text-align: center;' colspan='1'>&nbsp;&nbsp;<strong>Droite</strong></td>";
+                echo "<td style='  text-align: right';><a href='StatDistancePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>".$rowDonneesPartie['FMoy']." g</a></td>";
+                echo "<td style='  text-align: left'>: F moy</td>";
+                echo "<td style=' '>&nbsp;</td>";
               echo "</tr>";
                           /* ******* */
                           /* LIGNE IMPACT  */
                           /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'><a href='StatDistancePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>D min : ".$rowDonneesPartie['dmin']." mètres</a></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                //echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>&nbsp;&nbsp;Nb Impact :  ".$rowDonneesPartie['NbGauche'];
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style='  text-align: right;'>D Min :</td>";
+                echo "<td style='  text-align: left;'><a href='StatDistancePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>".$rowDonneesPartie['dmin']." m</a></td>";
+                //echo "<td style='  text-align: center;' colspan='1'>&nbsp;&nbsp;<b style='color:red'>".$rowDonneesPartie['NbGauche'];
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>&nbsp;&nbsp;Nb Impact :  ".$rowDonneesPartie['NbGauche'];
+                echo "<td style='  text-align: center;' colspan='1'>&nbsp;&nbsp;<b style='color:red'>".$rowDonneesPartie['NbGauche']." impact(s)</b>";
                 echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>&nbsp;&nbsp;Nb Impact :  ".$rowDonneesPartie['NbDroite'];
+                echo "<td style='  text-align: center;' colspan='1'>&nbsp;&nbsp;<b style='color:red'>".$rowDonneesPartie['NbDroite']." impact(s)</b>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                //echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>&nbsp;&nbsp;Nb Impact :  ".$rowDonneesPartie['NbDroite'];
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                //echo "<td style='  text-align: center;' colspan='1'>&nbsp;&nbsp;Nb Impact :  ".$rowDonneesPartie['NbDroite'];
+                echo "<td style='  text-align: right;'><a href='StatDistancePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>".$rowDonneesPartie['Fmin']." g</a></td>";
+                echo "<td style='  text-align: left;'>: F min</td>";
+                echo "<td style=' '>&nbsp;</td>";
               echo "</tr>";
                           /* ******* */
                           /* LIGNE POURCENTAGE  */
                           /* ******* */
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'><a href='StatDistancePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>D Max : ".$rowDonneesPartie['dMax']." mètres</a></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                //echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>".($rowDonneesPartie['pG']*100)."%";
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' text-align: right;'>D Max :</td>";
+                echo "<td style='  text-align: left;'><a href='StatDistancePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>".$rowDonneesPartie['dMax']." m</a></td>";
+                //echo "<td style='  text-align: center;' colspan='1'>".($rowDonneesPartie['pG']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>".($rowDonneesPartie['pG']*100)."%";
+                echo "<td style='  text-align: center;' colspan='1'>".($rowDonneesPartie['pG']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>".($rowDonneesPartie['pD']*100)."%";
+                echo "<td style='  text-align: center;' colspan='1'>".($rowDonneesPartie['pD']*100)."%";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                //echo "<td style='width: 8%; height: 18px; text-align: center;' colspan='1'>".($rowDonneesPartie['pD']*100)."%";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                //echo "<td style='  text-align: center;' colspan='1'>".($rowDonneesPartie['pD']*100)."%";
+                echo "<td style='  text-align: right;'><a href='StatDistancePartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>".$rowDonneesPartie['FMax']." g</a></td>";
+                echo "<td style='  text-align: left;'>: F Max</td>";
+                echo "<td style=' '>&nbsp;</td>";
               echo "</tr>";
 
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
                   echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
               echo "</tr>";
 
-              echo "<tr style='height: 18px;'>";
-                echo "<td style='width: 8%; height: 18px;'><a href='ResultatChronoPartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>Chronologie de la Partie</a></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                  echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                  echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                  echo "<td style='width: 0.1%; text-align: center;'></td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
-                echo "<td style='width: 8%; height: 18px;'>&nbsp;</td>";
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                // echo "<td style=' '>&nbsp;</td>";
+                //   echo "<td style='width: 0.1%; text-align: center;'></td>";
+
+                if ($rowDonneesPartie['NbDroite'] > $rowDonneesPartie['NbGauche'] ) {
+
+                  echo "<td colspan='7'><b style='color:red'>ATTENTION vos statistiques montrent que vous impactez plus a droite</b></td>";
+
+                }
+                else {
+                    echo "<td colspan='7'>&nbsp;</td>";
+                }
+
+
+                echo "<td colspan='2' style='font-size: 18px;'><a href='ResultatChronoPartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>Chrono Partie ".$IdP."</a></td>";
               echo "</tr>";
+
+              echo "<tr style=''>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                echo "<td style=' '>&nbsp;</td>";
+                  echo "<td style='width: 0.1%; text-align: center;'></td>";
+
+                  if ($rowDonneesPartie['NbDroite'] > $rowDonneesPartie['NbGauche'] ) {
+
+                    echo "<td colspan='5'><b style='color:red'>ET la majorité des joueurs sont droitiers ...</b></td>";
+
+                  }
+                  else {
+                    echo "<td colspan='5'>&nbsp;</td>";
+                  }
+              echo "<td style=' '>&nbsp;</td>";
+              echo "<td style=' '>&nbsp;</td>";
+              echo "</tr>";
+
 
               echo "</table>";
               echo "</tbody>";
               echo "<br>";
               echo "</div>";
               //echo "<div id='chart_div' style='width: 900px; height: 500px;'></div>";
-              echo "<hr size='5'color='green'>";
-              echo "<hr size='5'color='green'>";
+                // echo "<hr size='5'color='green'>";
+                // echo "<hr size='5'color='green'>";
 
 
 

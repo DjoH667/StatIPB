@@ -1,0 +1,90 @@
+<html>
+  <head>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawSeriesChartI);
+      google.charts.setOnLoadCallback(drawSeriesChartII);
+
+    function drawSeriesChartI() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['Code J', 'Pts', 'Pts / IMpact', 'G/D',     'Dist moy'],
+        ['MB8',    442,              11.05,      'D',  4.96],
+        ['AA9',    403,              16.12,      'D',         6.08],
+        ['MD9',    283,               8.84,      'D',         4.71],
+        ['KD0',    250,              9.62,      'D',    4.97],
+        ['HD8',    67,              4.79,         'G',         5.56],
+
+      ]);
+
+
+      // 1		182	MB8	Matys	442		40	11,05		0	22		40%	60%		8%	93%		4,96 m	3,37 m	6,61 m
+      // 2		184	AA9	Axel	403		25	16,12		0	15		36%	64%		8%	92%		6,08 m	1,53 m	10,88 m
+      // 3		181	MD9	Matéo	283		32	8,84		0	14		19%	81%		13%	88%		4,71 m	3,24 m	8,06 m
+      // 4		183	KD0	Kilian	250		26	9,62		0	10		40%	60%		28%	72%		4,97 m	2,66 m	8,79 m
+      // 5		185	HD8	Hugo	67		14	4,79		0	2		79%	21%		21%	79%		5,56 m	1,44 m	7,36 m
+
+
+
+      var options = {
+        title: 'Correlation entre nb points, nb points /impacts et distance moyenne ',
+        hAxis: {title: 'Nb Points'},
+        vAxis: {title: 'Nb Pts / Impacts '},
+        bubble: {textStyle: {fontSize: 11}}      };
+
+      var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_divI'));
+      chart.draw(data, options);
+
+    }
+
+
+    function drawSeriesChartII() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['Code J', 'Pts / IMpact', 'Pts', 'G/D',     'Dist moy'],
+        ['MB8',                  40, 442,     'D',  4.96],
+        ['AA9',                  25, 403,      'D',         6.08],
+        ['MD9',                  32, 283,     'D',         4.71],
+        ['KD0',                  26,  250,    'D',    4.97],
+        ['HD8',                  14, 67,        'G',         5.56],
+
+      ]);
+
+
+      // 1		182	MB8	Matys	442		40	11,05		0	22		40%	60%		8%	93%		4,96 m	3,37 m	6,61 m
+      // 2		184	AA9	Axel	403		25	16,12		0	15		36%	64%		8%	92%		6,08 m	1,53 m	10,88 m
+      // 3		181	MD9	Matéo	283		32	8,84		0	14		19%	81%		13%	88%		4,71 m	3,24 m	8,06 m
+      // 4		183	KD0	Kilian	250		26	9,62		0	10		40%	60%		28%	72%		4,97 m	2,66 m	8,79 m
+      // 5		185	HD8	Hugo	67		14	4,79		0	2		79%	21%		21%	79%		5,56 m	1,44 m	7,36 m
+
+
+
+      var options = {
+        title: 'Correlation entre nb impacts, nb pts ' +
+               'et distance moyenne',
+        hAxis: {title: 'Impacts'},
+        vAxis: {title: 'Nb Pts  '},
+        bubble: {textStyle: {fontSize: 11}}      };
+
+      var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_divII'));
+      chart.draw(data, options);
+
+    }
+    </script>
+  </head>
+  <body>
+
+<center>
+    <div id="series_chart_divI" style="width: 900px; height: 500px;"></div>
+
+    <br>
+
+    <div id="series_chart_divII" style="width: 900px; height: 500px;"></div>
+
+</center>
+
+  </body>
+</html>

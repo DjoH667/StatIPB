@@ -1,13 +1,14 @@
 <?php
-include 'MenuDev.php';  // Ok.
+
 include 'MenuIPassBall.php';  // Ok.
+include_once 'Security.php';
 ?>
 
 <?php
 
 /* Variables passées en prametres dans l'url*/
-$IdP = $_GET["IdP"];
-$IdJ = $_GET["IdJ"];
+$IdP = app_get_int("IdP");
+$IdJ = app_get_int("IdJ");
 
 echo "Synthèse IdPartie = ".$IdP." & IdJoueur = ".$IdJ."<br>";
 echo "<a href='ResultatChronoPartie.php?IdJ=".$IdJ."&IdP=".$IdP."'>Chronologie de la Partie n°".$IdP." Par ".$IdJ."</a>";

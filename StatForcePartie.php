@@ -1,13 +1,14 @@
 <?php
-include 'MenuDev.php';  // Ok.
+
 include 'MenuIPassBall.php';  // Ok.
+include_once 'Security.php';
 ?>
 
 <?php
 
 /* Variables passées en prametres dans l'url*/
-$IdP = $_GET["IdP"];
-$IdJ = $_GET["IdJ"];
+$IdP = app_get_int("IdP");
+$IdJ = app_get_int("IdJ");
 
 
 
@@ -22,7 +23,7 @@ include 'ConnexionBDDiPassBall.php';
 $sqlParametresPartie = "SELECT * FROM ParametresPartie where IdPartie='".$IdP."'";
 /*$sqlParametresPartie = "SELECT * FROM ParametresPartie ";*/
 $sqlJoueur = "SELECT * FROM Joueurs where IdJoueur='".$IdJ."'";
-$sqlDonneesPartie = "SELECT NbImp,Force,Fmoy,Fmin,FMax FROM DonneesPartie where IdPartie='".$IdP."'";
+$sqlDonneesPartie = "SELECT NbImp,Force,Fmoy,Fmin,FMax FROM DonneesParties where IdPartie='".$IdP."'";
 
 
 /*$reponse = $bd->query($sql, SQLITE3_BOTH, $err);*/
