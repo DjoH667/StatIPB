@@ -1,0 +1,4 @@
+INSERT INTO 'DonneesParties' ('IdSession','IdPartie','IdJoueur','Tps','DTps','NbImp','Imp/S','Cible','NbPt','Score','PtParImp','dist','dmoy','dmin','dMax','Force','Fmoy','Fmin','FMax', 'NbHGG','NbHG','NbBGG','NbBG','NbBD','NbBDD','NbHD','NbHDD','NbHS','NbHaut','NbBas','NbExtG','NbExtD','NbCentreD','NbCentreG','NbGauche','NbDroite', 'pHGG','pHG','pBGG','pBG','pBD','pBDD','pHD','pHDD','pH','pB','pExtG','pCG','pCD','pExtD','pG','pD') VALUES 
+(7,19,'P01',0.00,0,1,'Imp/s','HD',NULL,7,'NbPtParImp',18.47,18.47,18.47,18.47,2.55,2.55,2.55,2.55,0,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0.00,0.00,0.00,0.00,0.00,0.00,1.00,0.00,1.00,0.00,0.00,0.00,1.00,0.00,0.00,1.00);
+
+COMMIT;

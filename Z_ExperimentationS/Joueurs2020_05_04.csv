@@ -1,0 +1,10 @@
+IdJoueur;CodeJoueur;NomJoueur;PrenomJoueur;DateNaissance;TelJoueur;MailJoueur;OrigineCoordJoueur;ClubJoueur;DateCreation
+1;US4;Sancho;Ugo;17/05/2004;782284015;ugo.sancho@gmail.com;0;Couzeix;05/02/2020
+2;TM4;Marcoux;Timeo;JJ/MM/2004;783530540;;0;;05/02/2020
+3;LB8;Bourguignon;Lucas;JJ/MM/2008;634450300;;0;Couzeix;05/02/2020
+4;HB4;Bourguignon;Hugo;JJ/MM/2004;772125699;;0;Couzeix;05/02/2020
+5;JS9;Sancho;Jose;28/01/1969;661333690;djoh.sancho@gmail.com;0;;05/02/2020
+6;SG0;Gassimbala;Sophie;17/05/1970;661970983;sgassimbala@yahoo.fr;0;;05/02/2020
+7;SS2;Sancho;Solene;16/11/2002;687770118;solene.sancho@gmail.com;0;;05/02/2020
+8;EC1;Catie;Essai1;JJ/MM/1990;;;1;;13/03/2020
+9;EC2;Catie;Essai2;JJ/MM/1985;;;2;;13/03/2020

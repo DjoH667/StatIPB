@@ -1,0 +1,16 @@
+IdPartie;DateSession;CodeJoueur;DureePartie;Dmini;c1;c2 
+1;05/02/2020;US4;120;3;0;0
+2;05/02/2020;TM4;120;3;0;0
+3;05/02/2020;LB8;120;3;0;0
+IdPartie;DateSession;CodeJoueur;DureePartie;Dmini;c1;c2 
+1;05/02/2020;US4;120;3;0;0
+2;05/02/2020;TM4;120;3;0;0
+3;05/02/2020;LB8;120;3;0;0
+IdPartie;DateSession;CodeJoueur;DureePartie;Dmini;c1;c2 
+1;05/02/2020;US4;120;3;0;0
+2;05/02/2020;TM4;120;3;0;0
+3;05/02/2020;LB8;120;3;0;0
+IdPartie;DateSession;CodeJoueur;DureePartie;Dmini;c1;c2 
+1;05/02/2020;US4;120;3;0;0
+2;05/02/2020;TM4;120;3;0;0
+3;05/02/2020;LB8;120;3;0;0

@@ -1,0 +1,324 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Nb Impact');
+        data.addRows([
+          ['Cible 5pt G', 5],
+          ['Cible 5pt D', 2],
+          ['Cible 3pt G', 6],
+          ['Cible 3pt D', 9],
+          ['Cible 2pt G', 5],
+          ['Cible 2pt D', 1]
+        ]);
+
+        // Set chart options
+        var options = {
+          'title':'Repartition / Cible',
+          'width':800,
+          'height':600,
+
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+
+
+
+
+    <script type="text/javascript">
+
+
+
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawBasic);
+
+    function drawBasic() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['Cible', ' ', { role: 'style' }],
+            ['Cible 1pt G', 1,'#f8cbad'],
+            ['Cible 2pt G', 2,'#f2b084'],
+            ['Cible 3pt G', 3,'#e2efda'],
+            ['Cible 5pt G', 5,'#a9d08e'],
+            ['Cible 5pt D', 5,'#a9d08e'],
+            ['Cible 3pt D', 3,'#e2efda'],
+            ['Cible 2pt D', 2,'#f2b084'],
+            ['Cible 1pt D', 1,'#f8cbad'],
+      ]);
+
+      var options = {
+        title: 'Nombres impacts / Cible ',
+        legend:'none',
+        chartArea: {
+          width: '50%',
+          height:'50%',
+        },
+        hAxis: {
+          title: 'Nombres impacts',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Cibles'
+        },
+        bars: 'vertical', // Comment faire ?
+      };
+
+      var chart = new google.visualization.BarChart(document.getElementById('chart_Synthese'));
+
+      chart.draw(data, options);
+    }
+      </script>
+
+
+      <script type="text/javascript">
+              google.charts.load('current', {'packages':['corechart']});
+              google.charts.setOnLoadCallback(drawChart);
+
+                      function drawChart() {
+                        var data = google.visualization.arrayToDataTable([
+                        //['Impactnum',d min,d moy,Dist,d Max
+                        [' 1',3.70,3.70,3.70,3.70],
+                        [' 2',3.55,3.63,3.55,3.70],
+                        [' 3',3.55,3.74,3.97,3.97],
+                        [' 4',3.55,3.77,3.87,3.97],
+                        [' 5',3.37,3.69,3.37,3.97],
+                        [' 6',3.37,3.67,3.59,3.97],
+                        [' 7',3.37,3.73,4.06,4.06],
+                        [' 8',3.37,3.86,4.74,4.74],
+                        [' 9',3.37,4.12,6.24,6.24],
+                        [' 10',3.37,4.13,4.20,6.24],
+                        [' 11',3.37,4.14,4.22,6.24],
+                        [' 12',3.37,4.18,4.69,6.24]
+
+                          // Treat first row as data as well.
+                        ], true);
+
+                        var options = {
+                          legend:{position: 'top', textStyle: {color: 'blue', fontSize: 16}},
+                          'title':'Distance min - Distance Max / Distance moyenne - Distance ',
+                          'width':800,
+                          'height':600,
+                          hAxis: {
+                            title: 'N Impact'
+                          },
+                          vAxis: {
+                            title: 'Distance en m',
+                            minValue: 2,
+                            gridlines: {color: '#333', minSpacing: 10}
+                          },
+
+                          candlestick: {
+                                fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
+                                risingColor: { strokeWidth: 0, fill: '#0f9d58' }   // green
+                              }
+                          //animation.startup: true
+                          //animation.duration:2000
+
+    };
+
+    var chart = new google.visualization.CandlestickChart(document.getElementById('CandlestickChart'));
+
+    chart.draw(data, options);
+  }
+    </script>
+
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Distance','Cible 5pt',  'Cibles 3 pt', 'Cibles 2 pt', 'Cibles 1 pt'],
+          //['0',0,2,1,1],
+          //['0.2',0,2,1,1],
+          //['0.4',1,2,1,1],
+          //['0.6',1,2,1,1],
+          //['0.8',2,2,2,1],
+          //['1',2,2,2,1],
+          //['1.2',3,3,2,1],
+          //['1.4',3,3,2,1],
+          //['1.6',4,3,2,1],
+          //['1.8',4,3,2,1],
+          ['2',5,3,2,1],
+          ['2.2',6,3,2,1],
+          ['2.4',6,3,2,1],
+          ['2.6',7,3,2,1],
+          ['2.8',7,3,2,1],
+          ['3',8,4,2,1],
+          ['3.2',8,4,2,1],
+          ['3.4',9,4,3,1],
+          ['3.6',9,4,3,1],
+          ['3.8',10,4,3,1],
+          ['4',10,4,3,1],
+          ['4.2',11,4,3,1],
+          ['4.4',11,4,3,1],
+          ['4.6',12,5,3,2],
+          ['4.8',12,5,3,2],
+          ['5',13,5,3,2],
+          ['5.2',13,5,3,2],
+          ['5.4',14,5,3,2],
+          ['5.6',14,5,3,2],
+          ['5.8',15,5,4,2],
+          ['6',15,5,4,2],
+          ['6.2',16,6,4,2],
+          ['6.4',16,6,4,2],
+          ['6.6',17,6,4,2],
+          ['6.8',17,6,4,2],
+          ['7',18,6,4,2],
+          ['7.2',18,6,4,2],
+          ['7.4',19,6,4,2],
+          ['7.6',19,6,4,2],
+          ['7.8',20,6,4,2],
+          ['8',20,7,4,2],
+          ['8.2',21,7,4,2],
+          ['8.4',21,7,5,2],
+          ['8.6',22,7,5,2],
+          ['8.8',22,7,5,2],
+          ['9',23,7,5,2],
+          ['9.2',23,7,5,2],
+          ['9.4',24,7,5,2],
+          ['9.6',24,8,5,3],
+          ['9.8',25,8,5,3],
+          ['10',25,8,5,3]
+        ]);
+
+        var options = {
+          title: 'Points selon la \'Distance\'',
+          hAxis: {
+            title: 'Distance en metre',
+            ticks: [2,3,4,5,6,7,8,9,10]
+          },
+          vAxis: {
+            title: 'Nombre de points',
+            //baseline: 5,
+            ticks: [2,4,6,8,10,12,14,16,18,20,22,24]
+          },
+          colors: ['#228B22', '#a9d08e', '#f2b084', '#f8cbad'],
+          isStacked: false,
+          'width':1000,
+          'height':600,
+        };
+
+        var chart = new google.visualization.SteppedAreaChart(document.getElementById('SteppedAreaChart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+
+    <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawSeriesChart);
+
+        function drawSeriesChart() {
+
+          var data = google.visualization.arrayToDataTable([
+            ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
+            ['HGG',    40,              2,      'Cible 1pt',  33739900],
+            ['BGG',    40,              1,      'Cible 2pt',         81902307],
+            ['HG',    50,               2,      'Cible 3pt',         5523095],
+            ['BG',    50,              1,      'Cible 5pt',    79716203],
+            ['BD',    60,              1,         'Cible 5pt',         61801570],
+            ['HD',    60,              2,       'Cible 3pt',    73137148],
+            ['BDD',    70,              1,      'Cible 2pt',    7485600],
+            ['HDD',    70,              2,      'Cible 1pt',    7485600],
+
+          ]);
+
+          var options = {
+            title: 'Nombre d impacts / Cible',
+            hAxis: {title: 'Life Expectancy'},
+            vAxis: {title: 'Fertility Rate'},
+            bubble: {textStyle: {fontSize: 11}},
+            chartArea:{left:0,top:0,width:'75%',height:'75%'},
+            //hAxis.minValue : 30,
+            width:900,
+            height:900
+
+          };
+
+          var chart = new google.visualization.BubbleChart(document.getElementById('BubbleChart'));
+          chart.draw(data, options);
+        }
+        </script>
+
+
+  </head>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+<h1>Chart BarChart</h1>
+    <div id="chart_div" align="center" ></div>
+<h1>Chart BarChart</h1>
+    <div id="chart_Synthese" align="center" ></div>
+<h1>Chart CandlestickChart</h1>
+        <div id="CandlestickChart" align="center" ></div>
+<h1>Chart SteppedAreaChart</h1>
+        <div id="SteppedAreaChart" align="center" ></div> <!--style="width: 900px; height: 500px;"-->
+<h1>Chart BubbleChart</h1>
+        <div id="BubbleChart" align="center" ></div> <!--style="width: 900px; height: 500px;"-->
+  </body>
+</html>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+  // Load the Visualization API and the corechart package.
+  google.charts.load('current', {'packages':['corechart']});
+
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.charts.setOnLoadCallback(drawChart);
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  function drawChart() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Topping');
+    data.addColumn('number', 'Nb Impact');
+    data.addRows([
+      ['Cible 1pt G', <?php echo $nHGG; ?>,'color: #f8cbad'],
+      ['Cible 2pt G', <?php echo $nHG; ?>,'color: #f2b084'],
+      ['Cible 3pt G', <?php echo $nBGG; ?>,'color: #e2efda'],
+      ['Cible 5pt G', <?php echo $nBG; ?>,'color: #a9d08e'],
+      ['Cible 5pt D', <?php echo $nBD; ?>,'color: #a9d08e'],
+      ['Cible 3pt D', <?php echo $IdP; ?>,'color: #e2efda'],
+      ['Cible 2pt D', <?php echo $nHD; ?>],'color: #f2b084',
+      ['Cible 1pt D', <?php echo $nHDD; ?>,'color: #f8cbad']
+
+    ]);
+
+    // Set chart options
+    var options = {'title':'Repartition / Cible',
+                   'width':800,
+                   'height':600};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.BarChart(document.getElementById('BarChart'));
+    chart.draw(data, options);
+  }
+</script>
