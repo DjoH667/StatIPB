@@ -1,0 +1,2 @@
+IdPartie;DateSession;CodeJoueur;DureePartie;Dmini;c1;c2 
+IdPartie;DateSession;CodeJoueur;DureePartie;Dmini;c1;c2 
