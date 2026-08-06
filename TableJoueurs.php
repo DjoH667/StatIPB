@@ -77,10 +77,11 @@ if ($reponse === FALSE) {
     echo "</tr>";
 
     $PremiereLettrePrenom = 'A';
+    $PremiereLettrePrenomPrecedent = '';
 
     while ($row = $reponse->fetchArray()) {
 
-        $PremiereLettrePrenom=substr($row['PrenomJoueur'], 0, 1);
+        $PremiereLettrePrenom=substr((string) $row['PrenomJoueur'], 0, 1);
 
         if($PremiereLettrePrenomPrecedent<>$PremiereLettrePrenom) {
           echo "<tr style='height: '>";
@@ -103,7 +104,12 @@ if ($reponse === FALSE) {
         //echo "<td style='width: '><a href='FicheJoueur.php?IdJ=".$row['IdJoueur']."&NomJ=".$row['NomJoueur']."&PrenomJ=".$row['PrenomJoueur']."'>".$row['NomJoueur']."</a></td>";
         $NomJ=substr($row['NomJoueur'], 0, 3);
         echo "<td style='width: '><b>".$NomJ."</b></a></td>";
-        list($Annee, $Mois, $Jour) = explode('-',$row['DateNaissance']);
+        $DateNaissance = trim((string) $row['DateNaissance']);
+        if (preg_match('/\b(\d{4})\b/', $DateNaissance, $DateNaissanceMatches)) {
+            $Annee = $DateNaissanceMatches[1];
+        } else {
+            $Annee = '';
+        }
         echo "<td style='width: '>".$Annee."</td>";
         //echo "<td style='width: '>".$row['TelJoueur']."</td>";
         //echo "<td style='width: '>".$row['MailJoueur']."</td>";
