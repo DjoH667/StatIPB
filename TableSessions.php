@@ -76,6 +76,25 @@ echo "</i>";
     echo "</tr>";
     echo "</thead>";
 
+    function LireDureeSession($bd, $row)
+    {
+        for ($iJoueur = 1; $iJoueur <= 11; $iJoueur += 1) {
+            $ChampPartie = sprintf('IdPartieJoueur%02d', $iJoueur);
+            if (!empty($row[$ChampPartie])) {
+                $IdPartie = (int) $row[$ChampPartie];
+                $ReponseDuree = $bd->query("SELECT DureePartie FROM ParametresPartie WHERE IdPartie=".$IdPartie);
+                if ($ReponseDuree !== false) {
+                    $RowDuree = $ReponseDuree->fetchArray();
+                    if ($RowDuree !== false && isset($RowDuree['DureePartie'])) {
+                        return $RowDuree['DureePartie'];
+                    }
+                }
+            }
+        }
+
+        return 0;
+    }
+
 
 
     while ($row = $reponse->fetchArray()) {
@@ -84,6 +103,7 @@ echo "</i>";
         list($Annee, $Mois, $Jour) = explode('-',$row['DateSession']);
         $AN=substr($Annee, 0, 2);
         $DateSession = $Jour."/".$Mois."/".$Annee;
+        $DureeSession = LireDureeSession($bd, $row);
 
         echo "<td style='text-align: right;font-size: 12px'><a href='SyntheseSession.php?IdSession=".$row['IdSession']."&DureeSession=".$DureeSession."&DateSession=".$DateSession."'>".$row['IdSession']."</a></td>";
         // echo "<td style='text-align: center;font-size: 18px'>".$row['IdSession']."</td>";
@@ -108,9 +128,11 @@ echo "</i>";
                 // echo "sqlParametresPartieJoueur = ". $sqlParametresPartieJoueur;
                 // echo "<br>";
                 $reponseParametresPartieJoueur = $bd->query($sqlParametresPartieJoueur);
-                $rowParametresPartieJoueur = $reponseParametresPartieJoueur->fetchArray();
+                $rowParametresPartieJoueur = $reponseParametresPartieJoueur !== false ? $reponseParametresPartieJoueur->fetchArray() : false;
 
-                $DureeSession = $rowParametresPartieJoueur['DureePartie'];
+                if ($rowParametresPartieJoueur !== false && isset($rowParametresPartieJoueur['DureePartie'])) {
+                    $DureeSession = $rowParametresPartieJoueur['DureePartie'];
+                }
                 // echo "DureeSession = ". $DureeSession;
                 // echo "<br>";
 
